@@ -283,6 +283,27 @@ h3 { font-size: 1.2rem; }
   margin-top: .1em;
   padding-right: .06em;
 }
+/* Ligne du haut : tacos à gauche, nom au centre, burger à droite */
+.hero__row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(4px, 2vw, 28px);
+}
+.hero__food {
+  flex: 0 0 auto;
+  filter: drop-shadow(0 22px 32px rgba(0, 0, 0, .45));
+}
+/* Burger : flottement + léger balancement (l'effet "gif" animé) */
+.hero__food--burger {
+  width: clamp(115px, 16vw, 235px);
+  animation: fadeUp 1s .5s var(--ease) both, flotteDroite 4.2s 1.5s ease-in-out infinite;
+}
+@keyframes flotteDroite {
+  0%, 100% { transform: translateY(0) rotate(3deg) scale(1); }
+  50%      { transform: translateY(-20px) rotate(-3deg) scale(1.04); }
+}
+
 /* Bloc logo : titre + slogan + l'équerre orange de l'enseigne */
 .brand {
   display: inline-block;
@@ -716,6 +737,11 @@ h3 { font-size: 1.2rem; }
   .nav__links.is-open { transform: none; }
   .nav__links a { padding: 14px 0; border-bottom: 1px solid rgba(255, 255, 255, .08); }
   .nav__links .btn { margin-top: 14px; justify-content: center; border-bottom: 0; }
+
+  /* Sur téléphone : le burger passe sous le nom */
+  .hero__row { flex-wrap: wrap; gap: 4px; }
+  .brand { order: -1; flex: 1 0 100%; }
+  .hero__food--burger { width: 46vw; }
 
   .hero__actions { flex-direction: column; align-items: stretch; }
   .about__stats { gap: 22px; }
