@@ -1,0 +1,18 @@
+PHOTOS DU SITE MELYZA TACOS
+===========================
+
+Dépose ici les photos, avec ces noms exacts :
+
+  banniere.jpg    -> grande photo de fond de la page d'accueil (paysage, min. 1920x1080)
+  restaurant.jpg  -> photo de la salle / devanture (section "À propos", format portrait)
+  tacos.jpg       -> photo du tacos signature
+  burger.jpg      -> photo du burger
+  assiette.jpg    -> photo de l'assiette grillade
+  galerie-1.jpg   -> galerie (grande vignette)
+  galerie-2.jpg
+  galerie-3.jpg
+  galerie-4.jpg
+  galerie-5.jpg
+
+Une fois les photos déposées, dis-le moi : je branche les vraies images
+à la place des cadres gris (placeholders) dans index.html et style.css.
