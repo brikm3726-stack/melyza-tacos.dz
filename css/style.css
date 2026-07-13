@@ -552,10 +552,10 @@ h3 { font-size: 1.2rem; }
   overflow: hidden;
   background: #000;
   box-shadow: 0 0 0 2px #17181a inset;
-  /* iOS et certains navigateurs mobiles ne rognent pas les iframes aux coins
-     arrondis : on force le découpage avec un masque + un contexte de composition. */
-  -webkit-mask-image: -webkit-radial-gradient(#fff, #000);
-  mask-image: radial-gradient(#fff, #000);
+  /* iOS ne rogne pas les iframes avec overflow + border-radius.
+     clip-path, lui, découpe réellement le contenu, y compris les iframes. */
+  -webkit-clip-path: inset(0 round 46px);
+  clip-path: inset(0 round 46px);
   transform: translateZ(0);
   isolation: isolate;
 }
