@@ -455,39 +455,176 @@ h3 { font-size: 1.2rem; }
 /* =========================================================
    GALERIE
    ========================================================= */
+/* Cadres au format portrait 4:5, comme les photos : rien n'est coupé */
 .gallery__grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-auto-rows: 200px;
-  gap: 18px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
 }
-.gallery__item { min-height: 0; transition: transform .5s var(--ease); cursor: pointer; }
-.gallery__item:hover { transform: scale(1.02); }
-.gallery__item--big { grid-column: span 2; grid-row: span 2; }
+.gallery__item {
+  aspect-ratio: 4 / 5;
+  width: 100%;
+  object-fit: cover;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition: transform .5s var(--ease);
+  cursor: pointer;
+}
+.gallery__item:hover { transform: translateY(-6px) scale(1.02); }
+
+/* Photo du livreur : les deux roues sont des disques découpés dans la photo,
+   posés exactement sur les roues et pivotés au fil du défilement. */
+.gallery__item--moto { position: relative; overflow: hidden; margin: 0; padding: 0; }
+.gallery__item--moto img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.roue {
+  position: absolute;
+  border-radius: 50%;
+  aspect-ratio: 1;
+  background-image: url('../images/galerie-3.jpg');
+  background-repeat: no-repeat;
+  transform: translate(-50%, -50%) rotate(var(--tour, 0deg));
+  will-change: transform;
+  /* Seule la couronne du pneu tourne : le centre (jante, rayons, disque de frein)
+     reste fixe et laisse voir la photo d'origine en dessous. */
+  -webkit-mask: radial-gradient(circle at center, transparent 0 73%, #000 77% 100%);
+  mask: radial-gradient(circle at center, transparent 0 73%, #000 77% 100%);
+}
+/* Roue avant : centre (147, 635) px, diamètre 158 px sur une image de 646 x 808 */
+.roue--avant {
+  left: 22.76%; top: 78.59%;
+  width: 24.46%;
+  background-size: 408.9% auto;
+  background-position: 13.93% 85.54%;
+}
+/* Roue arrière : centre (491, 632) px, diamètre 150 px */
+.roue--arriere {
+  left: 76.01%; top: 78.22%;
+  width: 23.22%;
+  background-size: 430.7% auto;
+  background-position: 83.87% 84.65%;
+}
+@media (prefers-reduced-motion: reduce) {
+  .roue { transform: translate(-50%, -50%); }
+}
 
 /* =========================================================
    CONTACT
    ========================================================= */
 .contact__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
-/* Carte Google Maps intégrée */
-.contact__map { position: relative; }
-.contact__map iframe {
+/* Carte Google Maps affichée dans un iPhone 17 Pro Max */
+.contact__map {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+}
+
+.iphone {
+  position: relative;
   width: 100%;
-  height: 420px;
+  max-width: 320px;
+  aspect-ratio: 9 / 19.5;
+  padding: 11px;
+  border-radius: 56px;
+  /* châssis titane orange (couleur de la marque) */
+  background:
+    linear-gradient(145deg, #b8560f 0%, #ffb266 11%, #ef7a1c 25%, #b4520d 46%,
+                    #ff9a45 66%, #ffc287 80%, #a94c0b 100%);
+  box-shadow:
+    0 40px 80px rgba(0, 0, 0, .55),
+    0 0 60px rgba(255, 122, 26, .25),
+    0 0 0 1px rgba(255, 255, 255, .25) inset,
+    0 2px 5px rgba(255, 220, 190, .45) inset;
+  transition: transform .6s var(--ease);
+}
+.iphone:hover { transform: translateY(-8px) rotate(-.5deg); }
+
+.iphone__ecran {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 46px;
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 0 0 2px #17181a inset;
+}
+.iphone__ecran iframe {
+  width: 100%;
+  height: 100%;
   border: 0;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  filter: grayscale(.25) contrast(1.05);
-  transition: filter .4s;
+  display: block;
+  filter: contrast(1.03);
 }
-.contact__map:hover iframe { filter: none; }
-.contact__itineraire {
+
+/* Barre d'état : heure à gauche, réseau / wi-fi / batterie à droite */
+.iphone__statut {
   position: absolute;
-  right: 18px;
-  bottom: 18px;
-  padding: 12px 22px;
-  font-size: .85rem;
+  top: 0; left: 0; right: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px 0;
+  color: #fff;
+  pointer-events: none;
+  /* léger voile pour rester lisible par-dessus la carte */
+  background: linear-gradient(180deg, rgba(0, 0, 0, .55), transparent);
+  padding-bottom: 22px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, .6);
 }
+.iphone__heure {
+  font-family: 'Poppins', var(--font);
+  font-weight: 600;
+  font-size: .82rem;
+  letter-spacing: .02em;
+}
+.iphone__icones { display: flex; align-items: center; gap: 5px; }
+.iphone__icones svg { display: block; filter: drop-shadow(0 1px 2px rgba(0, 0, 0, .5)); }
+
+/* Dynamic Island */
+.iphone__island {
+  position: absolute;
+  top: 12px; left: 50%;
+  transform: translateX(-50%);
+  width: 33%;
+  height: 26px;
+  border-radius: 999px;
+  background: #08090a;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, .06);
+  pointer-events: none;
+  z-index: 2;
+}
+/* barre d'accueil */
+.iphone__barre {
+  position: absolute;
+  bottom: 8px; left: 50%;
+  transform: translateX(-50%);
+  width: 36%;
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .85);
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* boutons latéraux */
+.iphone__btn {
+  position: absolute;
+  background: linear-gradient(180deg, #8d9297, #5a5f64);
+  border-radius: 2px;
+}
+.iphone__btn--action  { left: -3px; top: 16%; width: 3px; height: 5%; }
+.iphone__btn--vol-haut{ left: -3px; top: 24%; width: 3px; height: 8%; }
+.iphone__btn--vol-bas { left: -3px; top: 34%; width: 3px; height: 8%; }
+.iphone__btn--power   { right: -3px; top: 26%; width: 3px; height: 12%; }
+
+.contact__itineraire { padding: 14px 30px; font-size: .9rem; }
 
 .contact__list { list-style: none; margin-top: 28px; }
 .contact__list li { display: flex; gap: 16px; padding: 18px 0; border-bottom: 1px solid rgba(255, 255, 255, .08); }
@@ -800,7 +937,7 @@ h3 { font-size: 1.2rem; }
   .about__img { height: 380px; }
   .about__media::after { inset: 12px -12px -12px 12px; }
   .cards { grid-template-columns: 1fr; }
-  .gallery__grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 170px; }
+  .gallery__grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
   .menu-list, .menu-list--compact { grid-template-columns: 1fr; gap: 0; }
 }
 
