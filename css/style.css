@@ -138,16 +138,15 @@ h3 { font-size: 1.2rem; }
   justify-content: space-between;
 }
 .nav__logo { display: flex; align-items: center; gap: 10px; }
+/* Logo rond du restaurant */
 .nav__logo-mark {
-  width: 40px; height: 40px;
-  display: grid; place-items: center;
-  border-radius: 12px;
-  background: linear-gradient(135deg, var(--orange), var(--rouge));
-  color: #fff;
-  font-family: var(--font-title);
-  font-weight: 700;
-  font-size: 1.25rem;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .35);
+  transition: transform .4s var(--ease);
 }
+.nav__logo:hover .nav__logo-mark { transform: rotate(-8deg) scale(1.06); }
 /* Logo de la barre de navigation, dans le même esprit que l'enseigne */
 .nav__logo-text { display: flex; align-items: baseline; gap: 6px; }
 .nav__logo-text .script {
@@ -536,21 +535,58 @@ h3 { font-size: 1.2rem; }
   transition: transform .3s var(--ease);
 }
 .fab:hover { transform: translateY(-4px) scale(1.04); }
+.fab__logo {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, .85);
+  flex: 0 0 auto;
+}
 .fab--call { background: linear-gradient(135deg, #16a34a, #0d7a37); box-shadow: 0 14px 34px rgba(22, 163, 74, .4); }
 
 /* =========================================================
    PAGE MENU
    ========================================================= */
-.menu-page { background: var(--noir); color: var(--creme); }
+/* Même fond que la bannière : le bardage anthracite de la façade */
+.menu-page {
+  color: var(--creme);
+  background:
+    repeating-linear-gradient(
+      180deg,
+      rgba(255, 255, 255, .035) 0px,
+      rgba(255, 255, 255, .015) 1px,
+      rgba(0, 0, 0, .28) 2px,
+      rgba(0, 0, 0, .10) 4px,
+      transparent 5px,
+      transparent 86px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, .012) 0px,
+      transparent 2px,
+      transparent 6px
+    ),
+    linear-gradient(170deg, #3a4149 0%, #2f353c 35%, #262b31 70%, #1c2025 100%);
+  background-attachment: fixed;
+}
+/* Voile sombre pour garder les textes bien lisibles par-dessus les panneaux */
+.menu-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(12, 14, 17, .55), rgba(12, 14, 17, .72));
+  pointer-events: none;
+  z-index: 0;
+}
+.menu-page > * { position: relative; z-index: 1; }
 
 .menu-hero {
   position: relative;
   padding: 70px 0 40px;
   text-align: center;
   background:
-    radial-gradient(ellipse at 50% 0%, rgba(255, 107, 26, .28), transparent 60%),
-    linear-gradient(180deg, #241a15, var(--noir));
-  border-bottom: 1px solid rgba(255, 255, 255, .08);
+    radial-gradient(ellipse 70% 60% at 50% 10%, rgba(245, 166, 35, .18), transparent 65%);
+  border-bottom: 1px solid rgba(255, 255, 255, .1);
 }
 .menu-hero__content { position: relative; z-index: 2; }
 .menu-hero__back {
@@ -594,8 +630,8 @@ h3 { font-size: 1.2rem; }
 .menu-cat__head h2 { font-size: 1.75rem; margin-bottom: 4px; }
 .menu-cat__head p { color: var(--gris); font-size: .9rem; }
 
-/* Affiche officielle du menu (photo) */
-.menu-affiche { margin: 0 0 40px; }
+/* Affiche officielle du menu (photo), placée sous la liste des plats */
+.menu-affiche { margin: 34px 0 0; }
 .menu-affiche img {
   width: 100%;
   border-radius: var(--radius);
@@ -640,6 +676,24 @@ h3 { font-size: 1.2rem; }
 }
 .lightbox__close:hover { background: var(--orange); transform: rotate(90deg); }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* Sous-familles d'une catégorie (Cheesecake, Crêpes, Tiramisu…) */
+.menu-sub {
+  font-size: 1.25rem;
+  color: var(--orange-2);
+  margin: 30px 0 10px;
+  padding-left: 12px;
+  border-left: 3px solid var(--orange);
+}
+.menu-sub__note {
+  color: var(--gris);
+  font-size: .9rem;
+  line-height: 1.7;
+  padding: 14px 16px;
+  border: 1px dashed rgba(255, 255, 255, .14);
+  border-radius: var(--radius-sm);
+}
+.menu-sub__note strong { color: var(--or); }
 
 .menu-list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 4px 40px; }
 .menu-list--compact { grid-template-columns: repeat(3, 1fr); }
