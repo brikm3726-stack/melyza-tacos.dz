@@ -138,15 +138,20 @@ h3 { font-size: 1.2rem; }
   justify-content: space-between;
 }
 .nav__logo { display: flex; align-items: center; gap: 10px; }
-/* Logo rond du restaurant */
+/* Logo rond du restaurant : rotation continue */
 .nav__logo-mark {
   width: 44px; height: 44px;
   border-radius: 50%;
   object-fit: cover;
   box-shadow: 0 4px 14px rgba(0, 0, 0, .35);
-  transition: transform .4s var(--ease);
+  animation: tourne 14s linear infinite;
 }
-.nav__logo:hover .nav__logo-mark { transform: rotate(-8deg) scale(1.06); }
+.nav__logo:hover .nav__logo-mark { animation-duration: 4s; }
+
+@keyframes tourne {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
 /* Logo de la barre de navigation, dans le même esprit que l'enseigne */
 .nav__logo-text { display: flex; align-items: baseline; gap: 6px; }
 .nav__logo-text .script {
@@ -542,7 +547,16 @@ h3 { font-size: 1.2rem; }
   border: 2px solid rgba(255, 255, 255, .85);
   flex: 0 0 auto;
 }
-.fab--call { background: linear-gradient(135deg, #16a34a, #0d7a37); box-shadow: 0 14px 34px rgba(22, 163, 74, .4); }
+/* Bouton "Commander" : flottant, centré en bas de l'écran */
+.fab--call {
+  right: auto;
+  left: 50%;
+  bottom: 26px;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #16a34a, #0d7a37);
+  box-shadow: 0 14px 34px rgba(22, 163, 74, .45);
+}
+.fab--call:hover { transform: translateX(-50%) translateY(-4px) scale(1.04); }
 
 /* =========================================================
    PAGE MENU
@@ -801,4 +815,7 @@ h3 { font-size: 1.2rem; }
   .about__stats { gap: 22px; }
   .fab span { display: none; }
   .fab { padding: 16px; }
+  /* Sur téléphone, le bouton Commander garde son texte : c'est l'action principale */
+  .fab--call { padding: 14px 24px; }
+  .fab--call span { display: inline; }
 }
