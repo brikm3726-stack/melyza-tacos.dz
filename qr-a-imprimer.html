@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QR Code à imprimer — Melyza Tacos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@200;300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Poppins', Arial, sans-serif;
+      background: #e9e6e1;
+      display: grid;
+      place-items: center;
+      min-height: 100vh;
+      padding: 30px;
+    }
+
+    .carte {
+      width: 380px;
+      background: #3a2d20;
+      border: 8px solid #f5a623;
+      border-radius: 26px;
+      padding: 34px 30px 28px;
+      text-align: center;
+      color: #fff;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, .25);
+    }
+
+    .carte__logo { width: 108px; height: 108px; border-radius: 50%; object-fit: cover; margin-bottom: 16px; }
+
+    .carte__nom { font-family: 'Pacifico', cursive; font-size: 2.3rem; color: #f5a623; line-height: 1.1; }
+    .carte__sous { font-size: .72rem; letter-spacing: .3em; text-transform: uppercase; color: rgba(255,255,255,.75); margin-top: 4px; }
+
+    .carte__titre {
+      margin: 22px 0 16px;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: .04em;
+    }
+
+    .carte__qr {
+      width: 240px; height: 240px;
+      background: #fff;
+      border-radius: 16px;
+      padding: 12px;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .carte__url { margin-top: 16px; font-size: .68rem; letter-spacing: .04em; color: rgba(255,255,255,.6); word-break: break-all; }
+    .carte__tel { margin-top: 14px; font-size: 1.05rem; font-weight: 600; color: #f5a623; }
+    .carte__adresse { margin-top: 6px; font-size: .72rem; color: rgba(255,255,255,.7); line-height: 1.6; }
+
+    .aide {
+      margin-top: 26px;
+      max-width: 380px;
+      font-size: .82rem;
+      line-height: 1.7;
+      color: #6b645e;
+      text-align: center;
+    }
+
+    @media print {
+      body { background: #fff; padding: 0; }
+      .aide { display: none; }
+      .carte { box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="carte">
+    <img src="images/logo.png" alt="Logo Melyza Tacos" class="carte__logo" />
+
+    <p class="carte__nom">Melyza</p>
+    <p class="carte__sous">Tacos · The Best Corner</p>
+
+    <p class="carte__titre">Scannez pour voir le menu</p>
+
+    <img src="images/qr-site.png" alt="QR code du site Melyza Tacos" class="carte__qr" />
+
+    <p class="carte__url">brikm3726-stack.github.io/melyza-tacos.dz</p>
+    <p class="carte__tel">05 60 56 61 17</p>
+    <p class="carte__adresse">20, Rue Boudelal Arezki<br />15002 Tizi Ouzou</p>
+  </div>
+
+  <p class="aide">
+    Pour imprimer&nbsp;: Ctrl + P. Idéal en autocollant pour la vitrine, en chevalet sur les tables,
+    ou sur les sacs de livraison.
+  </p>
+
+</body>
+</html>
