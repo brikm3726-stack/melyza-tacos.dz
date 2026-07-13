@@ -596,19 +596,38 @@ h3 { font-size: 1.2rem; }
 
 .menu-hero {
   position: relative;
-  padding: 70px 0 40px;
+  padding: 82px 0 40px;
   text-align: center;
   background:
     radial-gradient(ellipse 70% 60% at 50% 10%, rgba(245, 166, 35, .18), transparent 65%);
   border-bottom: 1px solid rgba(255, 255, 255, .1);
 }
 .menu-hero__content { position: relative; z-index: 2; }
+/* Retour au site : épinglé en haut à gauche */
 .menu-hero__back {
-  display: inline-block;
-  font-size: .85rem; font-weight: 600; color: var(--gris);
-  margin-bottom: 20px;
+  position: absolute;
+  top: 22px;
+  left: 24px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, .18);
+  background: rgba(255, 255, 255, .06);
+  backdrop-filter: blur(6px);
+  font-size: .85rem;
+  font-weight: 600;
+  color: var(--creme);
+  transition: background .25s, border-color .25s, color .25s, transform .25s var(--ease);
 }
-.menu-hero__back:hover { color: var(--orange); }
+.menu-hero__back:hover {
+  background: var(--orange);
+  border-color: transparent;
+  color: #fff;
+  transform: translateX(-3px);
+}
 .menu-hero h1 { font-size: clamp(2.4rem, 7vw, 4rem); margin-bottom: 10px; }
 .menu-hero h1 span {
   background: linear-gradient(135deg, var(--orange), var(--or));
