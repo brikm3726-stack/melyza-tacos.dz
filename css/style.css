@@ -410,11 +410,16 @@ h3 { font-size: 1.2rem; }
 .about__text h2 { margin-bottom: 20px; }
 .about__text p { margin-bottom: 16px; color: #4a443f; }
 .about__stats {
-  display: flex; gap: 36px; margin-top: 34px;
+  display: flex; flex-wrap: wrap; gap: 28px; margin-top: 34px;
   padding-top: 28px; border-top: 1px solid rgba(0, 0, 0, .1);
 }
 .about__stats div { display: flex; flex-direction: column; }
-.about__stats strong { font-family: var(--font-title); font-size: 1.9rem; color: var(--orange); }
+.about__stats strong {
+  font-family: var(--font-title);
+  font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+  color: var(--orange);
+  white-space: nowrap;
+}
 .about__stats span { font-size: .85rem; color: #6b645e; }
 
 /* =========================================================
