@@ -425,6 +425,40 @@ h3 { font-size: 1.2rem; }
 /* =========================================================
    SPÉCIALITÉS
    ========================================================= */
+/* Nos incontournables et Contact : même fond que la bannière (le bardage de la façade) */
+.specials,
+.contact {
+  position: relative;
+  background:
+    repeating-linear-gradient(
+      180deg,
+      rgba(255, 255, 255, .035) 0px,
+      rgba(255, 255, 255, .015) 1px,
+      rgba(0, 0, 0, .28) 2px,
+      rgba(0, 0, 0, .10) 4px,
+      transparent 5px,
+      transparent 86px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, .012) 0px,
+      transparent 2px,
+      transparent 6px
+    ),
+    linear-gradient(170deg, #3a4149 0%, #2f353c 35%, #262b31 70%, #1c2025 100%);
+}
+/* voile sombre : les cartes, les titres et le téléphone restent bien lisibles */
+.specials::before,
+.contact::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(12, 14, 17, .6), rgba(12, 14, 17, .75));
+  pointer-events: none;
+}
+.specials > *,
+.contact > * { position: relative; z-index: 1; }
+
 .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
 .card {
   background: var(--noir-2);
