@@ -184,4 +184,117 @@
       if (e.key === 'Escape' && !lightbox.hidden) closeLightbox();
     });
   }
+
+  /* ---- Commander un plat : clic sur un plat -> choix Solo/Menu -> WhatsApp ---- */
+  var plats = document.querySelectorAll('.menu-item');
+  if (plats.length) {
+    var NUM_WA = '213560566117';
+
+    // récupère uniquement le texte direct (sans les badges ni le "Menu : ...")
+    var texteDirect = function (el) {
+      if (!el) return '';
+      var t = '';
+      el.childNodes.forEach(function (n) {
+        if (n.nodeType === 3) t += n.textContent;
+      });
+      return t.replace(/\s+/g, ' ').trim();
+    };
+
+    var envoyerWA = function (message) {
+      var lien = 'https://wa.me/' + NUM_WA + '?text=' + encodeURIComponent(message);
+      window.open(lien, '_blank', 'noopener');
+    };
+
+    // ----- petite fenêtre de choix Solo / Menu (créée une seule fois) -----
+    var modal = document.createElement('div');
+    modal.className = 'choix';
+    modal.hidden = true;
+    modal.innerHTML =
+      '<div class="choix__card" role="dialog" aria-modal="true">' +
+        '<button class="choix__close" aria-label="Fermer">✕</button>' +
+        '<p class="choix__label">Votre commande</p>' +
+        '<h3 class="choix__nom"></h3>' +
+        '<p class="choix__q">Comment souhaitez-vous le prendre&nbsp;?</p>' +
+        '<div class="choix__btns">' +
+          '<button class="choix__opt" data-type="solo"><span>Solo</span><strong class="choix__px-solo"></strong></button>' +
+          '<button class="choix__opt choix__opt--menu" data-type="menu"><span>Menu</span><strong class="choix__px-menu"></strong><em>+ frites &amp; boisson</em></button>' +
+        '</div>' +
+      '</div>';
+    document.body.appendChild(modal);
+
+    var elNom = modal.querySelector('.choix__nom');
+    var elSolo = modal.querySelector('.choix__px-solo');
+    var elMenu = modal.querySelector('.choix__px-menu');
+    var btnSolo = modal.querySelector('[data-type="solo"]');
+    var btnMenu = modal.querySelector('[data-type="menu"]');
+    var courant = {};
+
+    var fermer = function () {
+      modal.hidden = true;
+      document.body.style.overflow = '';
+    };
+    modal.querySelector('.choix__close').addEventListener('click', fermer);
+    modal.addEventListener('click', function (e) { if (e.target === modal) fermer(); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !modal.hidden) fermer();
+    });
+
+    btnSolo.addEventListener('click', function () {
+      envoyerWA('Bonjour Melyza Tacos, je voudrais commander : ' + courant.nom +
+                ' — Solo (' + courant.solo + ')');
+      fermer();
+    });
+    btnMenu.addEventListener('click', function () {
+      envoyerWA('Bonjour Melyza Tacos, je voudrais commander : ' + courant.nom +
+                ' — Menu (' + courant.menu + ')');
+      fermer();
+    });
+
+    var ouvrirChoix = function (nom, solo, menu) {
+      courant = { nom: nom, solo: solo, menu: menu };
+      elNom.textContent = nom;
+      elSolo.textContent = solo;
+      elMenu.textContent = menu;
+      modal.hidden = false;
+      document.body.style.overflow = 'hidden';
+    };
+
+    var iconeWA =
+      '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">' +
+      '<path d="M17.5 14.4c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.87 1.22 3.07.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35z"/></svg>';
+
+    plats.forEach(function (item) {
+      var h3 = item.querySelector('h3');
+      if (!h3) return;
+
+      var nom = texteDirect(h3) || h3.textContent.trim();
+      var prixEl = item.querySelector('.menu-item__price');
+      var solo = texteDirect(prixEl);
+      var small = prixEl ? prixEl.querySelector('small') : null;
+      var menu = small ? small.textContent.replace(/menu\s*:\s*/i, '').trim() : '';
+
+      item.classList.add('menu-item--commandable');
+      item.setAttribute('role', 'button');
+      item.setAttribute('tabindex', '0');
+      item.setAttribute('title', 'Commander « ' + nom +' » sur WhatsApp');
+
+      var ic = document.createElement('span');
+      ic.className = 'menu-item__wa';
+      ic.innerHTML = iconeWA;
+      item.appendChild(ic);
+
+      var commander = function () {
+        if (menu) {
+          ouvrirChoix(nom, solo, menu);          // deux prix -> on demande Solo ou Menu
+        } else {
+          envoyerWA('Bonjour Melyza Tacos, je voudrais commander : ' + nom +
+                    (solo ? ' (' + solo + ')' : ''));
+        }
+      };
+      item.addEventListener('click', commander);
+      item.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); commander(); }
+      });
+    });
+  }
 })();

@@ -112,6 +112,14 @@ h3 { font-size: 1.2rem; }
 .btn--ghost:hover { background: #fff; color: var(--noir); }
 .btn--sm { padding: 10px 20px; font-size: .85rem; background: var(--orange); color: #fff; }
 .btn--sm:hover { background: var(--rouge); }
+/* Bouton WhatsApp (vert de la marque WhatsApp) */
+.btn--whatsapp {
+  background: linear-gradient(135deg, #25d366, #128c4b);
+  color: #fff;
+  box-shadow: 0 12px 30px rgba(37, 211, 102, .35);
+}
+.btn--whatsapp:hover { transform: translateY(-3px); box-shadow: 0 18px 40px rgba(37, 211, 102, .45); }
+.btn--whatsapp svg { flex: 0 0 auto; }
 
 /* =========================================================
    NAVIGATION
@@ -730,16 +738,17 @@ h3 { font-size: 1.2rem; }
   border: 2px solid rgba(255, 255, 255, .85);
   flex: 0 0 auto;
 }
-/* Bouton "Commander" : flottant, centré en bas de l'écran */
-.fab--call {
+/* Bouton "Commander sur WhatsApp" : flottant, centré en bas de l'écran */
+.fab--whatsapp {
   right: auto;
   left: 50%;
   bottom: 26px;
   transform: translateX(-50%);
-  background: linear-gradient(135deg, #16a34a, #0d7a37);
-  box-shadow: 0 14px 34px rgba(22, 163, 74, .45);
+  background: linear-gradient(135deg, #25d366, #128c4b);
+  box-shadow: 0 14px 34px rgba(37, 211, 102, .45);
 }
-.fab--call:hover { transform: translateX(-50%) translateY(-4px) scale(1.04); }
+.fab--whatsapp:hover { transform: translateX(-50%) translateY(-4px) scale(1.04); }
+.fab--whatsapp svg { flex: 0 0 auto; }
 
 /* =========================================================
    PAGE MENU
@@ -817,6 +826,17 @@ h3 { font-size: 1.2rem; }
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
 .menu-hero p { color: var(--gris); font-size: .95rem; }
+.menu-astuce {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 9px 18px;
+  border-radius: 999px;
+  background: rgba(37, 211, 102, .14);
+  border: 1px solid rgba(37, 211, 102, .4);
+  color: #4ade80 !important;
+  font-weight: 600;
+  font-size: .86rem !important;
+}
 
 .menu-tabs {
   display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
@@ -915,12 +935,107 @@ h3 { font-size: 1.2rem; }
 .menu-list--compact { grid-template-columns: repeat(3, 1fr); }
 
 .menu-item {
+  position: relative;
   display: flex; align-items: baseline; gap: 12px;
   padding: 16px 0;
   border-bottom: 1px dashed rgba(255, 255, 255, .1);
   transition: padding-left .3s var(--ease);
 }
 .menu-item:hover { padding-left: 8px; }
+
+/* Plat cliquable : commande directe sur WhatsApp */
+.menu-item--commandable {
+  cursor: pointer;
+  padding-right: 34px;
+  border-radius: 10px;
+  transition: background .25s, padding .3s var(--ease);
+}
+.menu-item--commandable:hover {
+  background: rgba(37, 211, 102, .1);
+  padding-left: 10px;
+}
+.menu-item__wa {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%) scale(.9);
+  color: #25d366;
+  opacity: .5;
+  transition: opacity .25s, transform .25s var(--ease);
+  pointer-events: none;
+}
+.menu-item__wa svg { display: block; }
+.menu-item--commandable:hover .menu-item__wa,
+.menu-item--commandable:focus-visible .menu-item__wa {
+  opacity: 1;
+  transform: translateY(-50%) scale(1.1);
+}
+.menu-item--commandable:focus-visible {
+  outline: 2px solid #25d366;
+  outline-offset: 2px;
+}
+
+/* Fenêtre de choix Solo / Menu avant l'envoi WhatsApp */
+.choix {
+  position: fixed; inset: 0; z-index: 210;
+  background: rgba(6, 5, 4, .82);
+  backdrop-filter: blur(4px);
+  display: grid; place-items: center;
+  padding: 24px;
+  animation: fadeIn .25s ease;
+}
+.choix[hidden] { display: none; }
+.choix__card {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  background: linear-gradient(180deg, #24201d, #17140f);
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-radius: 22px;
+  padding: 30px 26px 26px;
+  text-align: center;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, .6);
+  animation: fadeUp .4s var(--ease) both;
+}
+.choix__close {
+  position: absolute; top: 14px; right: 14px;
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, .18);
+  background: rgba(255, 255, 255, .06);
+  color: #fff; font-size: .9rem; cursor: pointer;
+  transition: background .2s, transform .2s;
+}
+.choix__close:hover { background: var(--orange); transform: rotate(90deg); }
+.choix__label {
+  text-transform: uppercase; letter-spacing: .16em;
+  font-size: .72rem; font-weight: 700; color: var(--orange);
+}
+.choix__nom {
+  font-size: 1.5rem; color: #fff; margin: 6px 0 4px;
+}
+.choix__q { color: var(--gris); font-size: .9rem; margin-bottom: 22px; }
+.choix__btns { display: flex; gap: 14px; }
+.choix__opt {
+  flex: 1;
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 18px 12px;
+  border-radius: 14px;
+  border: 2px solid rgba(255, 255, 255, .14);
+  background: rgba(255, 255, 255, .04);
+  color: #fff; cursor: pointer;
+  font: inherit;
+  transition: border-color .25s, background .25s, transform .25s var(--ease);
+}
+.choix__opt span { font-weight: 700; font-size: 1.05rem; letter-spacing: .02em; }
+.choix__opt strong { font-family: var(--font-title); font-size: 1.3rem; color: var(--or); }
+.choix__opt em { font-style: normal; font-size: .72rem; color: var(--gris); }
+.choix__opt:hover {
+  border-color: #25d366;
+  background: rgba(37, 211, 102, .12);
+  transform: translateY(-3px);
+}
+.choix__opt--menu { border-color: rgba(37, 211, 102, .4); }
 .menu-item__info { flex: 1; }
 .menu-item__info h3 { font-size: 1.05rem; margin-bottom: 3px; }
 .menu-item__info p { color: var(--gris); font-size: .86rem; line-height: 1.5; }
@@ -1017,7 +1132,7 @@ h3 { font-size: 1.2rem; }
   .about__stats { gap: 22px; }
   .fab span { display: none; }
   .fab { padding: 16px; }
-  /* Sur téléphone, le bouton Commander garde son texte : c'est l'action principale */
-  .fab--call { padding: 14px 24px; }
-  .fab--call span { display: inline; }
+  /* Sur téléphone, le bouton WhatsApp garde son texte : c'est l'action principale */
+  .fab--whatsapp { padding: 14px 22px; }
+  .fab--whatsapp span { display: inline; }
 }
