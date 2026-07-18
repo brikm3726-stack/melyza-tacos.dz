@@ -3,7 +3,7 @@
    Rend l'application rapide et disponible hors connexion.
    ========================================================= */
 
-const CACHE = 'melyza-tacos-v1';
+const CACHE = 'melyza-tacos-v2';
 
 // Fichiers mis en cache dès l'installation (le "cœur" de l'app)
 const A_METTRE_EN_CACHE = [
@@ -45,7 +45,7 @@ self.addEventListener('activate', (e) => {
   );
 });
 
-// Requêtes : on répond depuis le cache, sinon depuis le réseau
+// Requêtes internes
 self.addEventListener('fetch', (e) => {
   const req = e.request;
 
@@ -54,18 +54,28 @@ self.addEventListener('fetch', (e) => {
     return;
   }
 
-  e.respondWith(
-    caches.match(req).then((cache) => {
-      if (cache) return cache;
-
-      return fetch(req).then((rep) => {
-        // On met en cache au passage les nouvelles ressources internes
+  // Pages HTML : réseau d'abord -> toujours la dernière version ; cache si hors ligne
+  if (req.mode === 'navigate') {
+    e.respondWith(
+      fetch(req).then((rep) => {
         const copie = rep.clone();
         caches.open(CACHE).then((c) => c.put(req, copie)).catch(() => {});
         return rep;
-      }).catch(() => {
-        // Hors ligne : pour une page, on renvoie l'accueil
-        if (req.mode === 'navigate') return caches.match('./index.html');
+      }).catch(() =>
+        caches.match(req).then((r) => r || caches.match('./index.html'))
+      )
+    );
+    return;
+  }
+
+  // Autres ressources (images, css, js) : cache d'abord, puis réseau
+  e.respondWith(
+    caches.match(req).then((cache) => {
+      if (cache) return cache;
+      return fetch(req).then((rep) => {
+        const copie = rep.clone();
+        caches.open(CACHE).then((c) => c.put(req, copie)).catch(() => {});
+        return rep;
       });
     })
   );
