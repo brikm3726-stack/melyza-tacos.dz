@@ -124,6 +124,90 @@ h3 { font-size: 1.2rem; }
 }
 .btn--install:hover { background: var(--orange); color: #fff; }
 
+/* =========================================================
+   INTRO / ÉCRAN D'OUVERTURE
+   ========================================================= */
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: grid;
+  place-items: center;
+  /* même bardage que la bannière */
+  background:
+    repeating-linear-gradient(
+      180deg,
+      rgba(255, 255, 255, .035) 0px,
+      rgba(255, 255, 255, .015) 1px,
+      rgba(0, 0, 0, .28) 2px,
+      rgba(0, 0, 0, .10) 4px,
+      transparent 5px,
+      transparent 86px
+    ),
+    radial-gradient(ellipse 60% 40% at 50% 42%, rgba(245, 166, 35, .22), transparent 65%),
+    linear-gradient(170deg, #3a4149 0%, #2f353c 35%, #262b31 70%, #1c2025 100%);
+  transition: opacity .7s ease, visibility .7s;
+}
+.intro.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+.intro__inner { text-align: center; padding: 24px; }
+
+.intro__logo {
+  width: clamp(150px, 42vw, 220px);
+  height: auto;
+  border-radius: 50%;
+  box-shadow: 0 20px 55px rgba(0, 0, 0, .5), 0 0 0 1px rgba(255, 255, 255, .08);
+  animation:
+    introLogo 1s var(--ease) both,
+    introFlotte 3s 1s ease-in-out infinite;
+}
+.intro__slogan {
+  margin-top: 20px;
+  font-family: 'Poppins', var(--font);
+  font-weight: 300;
+  letter-spacing: .26em;
+  font-size: clamp(.8rem, 2vw, 1rem);
+  color: rgba(255, 255, 255, .8);
+  text-transform: lowercase;
+  animation: introFade 1s .5s both;
+}
+.intro__load {
+  display: block;
+  width: 120px;
+  height: 3px;
+  margin: 28px auto 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .14);
+  overflow: hidden;
+  animation: introFade .6s .7s both;
+}
+.intro__load i {
+  display: block;
+  height: 100%;
+  width: 40%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--orange), var(--or));
+  animation: introBarre 1.6s .8s ease-in-out infinite;
+}
+
+@keyframes introLogo {
+  from { opacity: 0; transform: scale(.6) translateY(10px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes introFlotte {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+@keyframes introFade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes introBarre {
+  0%   { transform: translateX(-120%); }
+  50%  { transform: translateX(120%); }
+  100% { transform: translateX(320%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .intro__logo, .intro__slogan, .intro__load, .intro__load i { animation: none; }
+}
+
 /* Guide d'installation iPhone */
 .guide {
   position: fixed; inset: 0; z-index: 300;

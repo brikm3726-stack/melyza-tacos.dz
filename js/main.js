@@ -4,6 +4,40 @@
 (function () {
   'use strict';
 
+  /* ---- Intro / écran d'ouverture (une fois par session) ---- */
+  var intro = document.getElementById('intro');
+  if (intro) {
+    var dejaVue = false;
+    try { dejaVue = sessionStorage.getItem('introVue') === '1'; } catch (e) {}
+
+    if (dejaVue) {
+      // déjà montrée dans cette session : on l'enlève tout de suite
+      intro.parentNode && intro.parentNode.removeChild(intro);
+    } else {
+      document.body.style.overflow = 'hidden';
+      var masquer = function () {
+        intro.classList.add('is-hidden');
+        document.body.style.overflow = '';
+        try { sessionStorage.setItem('introVue', '1'); } catch (e) {}
+        setTimeout(function () {
+          intro.parentNode && intro.parentNode.removeChild(intro);
+        }, 800);
+      };
+      // durée de l'intro : 5 s dans l'app installée, 2,6 s sur le site web
+      var estApp = window.matchMedia('(display-mode: standalone)').matches ||
+                   window.navigator.standalone === true;
+      var duree;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        duree = 600;
+      } else {
+        duree = estApp ? 5000 : 2600;
+      }
+      setTimeout(masquer, duree);
+      // on peut aussi la passer en touchant l'écran
+      intro.addEventListener('click', masquer);
+    }
+  }
+
   /* ---- Application installable (PWA) : enregistrement du service worker ---- */
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
