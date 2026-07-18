@@ -4,6 +4,34 @@
 (function () {
   'use strict';
 
+  /* ---- Application installable (PWA) : enregistrement du service worker ---- */
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('sw.js').catch(function () {});
+    });
+  }
+
+  /* ---- Bouton "Installer l'application" ---- */
+  var promptInstall = null;
+  window.addEventListener('beforeinstallprompt', function (e) {
+    e.preventDefault();
+    promptInstall = e;
+    var btn = document.getElementById('installApp');
+    if (btn) {
+      btn.hidden = false;
+      btn.addEventListener('click', function () {
+        btn.hidden = true;
+        promptInstall.prompt();
+        promptInstall = null;
+      });
+    }
+  });
+  // une fois installée, on cache le bouton
+  window.addEventListener('appinstalled', function () {
+    var btn = document.getElementById('installApp');
+    if (btn) btn.hidden = true;
+  });
+
   /* ---- Année dans le footer ---- */
   var year = document.getElementById('year');
   if (year) year.textContent = new Date().getFullYear();

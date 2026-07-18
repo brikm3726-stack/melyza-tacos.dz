@@ -2,9 +2,18 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Melyza Tacos — Tizi Ouzou</title>
   <meta name="description" content="Melyza Tacos, restaurant de tacos, burgers et sandwichs à Tizi Ouzou. Sur place, à emporter et en livraison." />
+
+  <!-- Application installable (PWA) -->
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#12100e" />
+  <link rel="apple-touch-icon" href="images/icons/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Melyza Tacos" />
+  <meta name="mobile-web-app-capable" content="yes" />
 
   <!-- Polices de l'enseigne : Pacifico = script "Melyza", Poppins = "TACOS" et le slogan -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -30,6 +39,7 @@
         <a href="#apropos">À propos</a>
         <a href="#galerie">Galerie</a>
         <a href="#contact">Contact</a>
+        <button id="installApp" class="btn btn--sm btn--install" hidden>⬇ Installer l'app</button>
         <a href="menu.html" target="_blank" rel="noopener" class="btn btn--sm">Voir le menu</a>
       </nav>
 

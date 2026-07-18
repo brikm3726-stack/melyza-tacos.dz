@@ -112,6 +112,18 @@ h3 { font-size: 1.2rem; }
 .btn--ghost:hover { background: #fff; color: var(--noir); }
 .btn--sm { padding: 10px 20px; font-size: .85rem; background: var(--orange); color: #fff; }
 .btn--sm:hover { background: var(--rouge); }
+/* Bouton "Installer l'app" (visible seulement si l'installation est possible) */
+.btn--install {
+  background: transparent;
+  border: 1.5px solid var(--orange);
+  color: var(--orange);
+  cursor: pointer;
+  font: inherit;
+  font-size: .85rem;
+  font-weight: 700;
+}
+.btn--install:hover { background: var(--orange); color: #fff; }
+
 /* Bouton WhatsApp (vert de la marque WhatsApp) */
 .btn--whatsapp {
   background: linear-gradient(135deg, #25d366, #128c4b);
