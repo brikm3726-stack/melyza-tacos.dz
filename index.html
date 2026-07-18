@@ -11,7 +11,7 @@
   <meta name="theme-color" content="#12100e" />
   <link rel="apple-touch-icon" href="images/icons/apple-touch-icon.png" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   <meta name="apple-mobile-web-app-title" content="Melyza Tacos" />
   <meta name="mobile-web-app-capable" content="yes" />
 
@@ -340,6 +340,38 @@
     <img src="images/logo.png" alt="" class="fab__logo" />
     <span>Menu</span>
   </a>
+
+  <!-- Guide d'installation sur iPhone -->
+  <div class="guide" id="guideIOS" hidden>
+    <div class="guide__card">
+      <button class="guide__close" aria-label="Fermer">✕</button>
+      <img src="images/icons/apple-touch-icon.png" alt="" class="guide__logo" />
+      <h3>Installer l'app sur iPhone</h3>
+      <p class="guide__intro">En 2 étapes, dans <strong>Safari</strong> :</p>
+      <ol class="guide__etapes">
+        <li>
+          <span class="guide__num">1</span>
+          <span>Appuyez sur le bouton <strong>Partager</strong>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#0a84ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 15V3M12 3l-4 4M12 3l4 4"/>
+              <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/>
+            </svg>
+            en bas de l'écran
+          </span>
+        </li>
+        <li>
+          <span class="guide__num">2</span>
+          <span>Choisissez <strong>« Sur l'écran d'accueil »</strong>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="4" y="4" width="16" height="16" rx="4"/>
+              <path d="M12 8v8M8 12h8"/>
+            </svg>
+          </span>
+        </li>
+      </ol>
+      <p class="guide__note">⚠️ Cela ne fonctionne que dans <strong>Safari</strong> (pas Chrome ni Instagram).</p>
+    </div>
+  </div>
 
   <script src="js/main.js"></script>
 </body>

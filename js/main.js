@@ -12,25 +12,48 @@
   }
 
   /* ---- Bouton "Installer l'application" ---- */
+  var btnInstall = document.getElementById('installApp');
+
+  // l'app est-elle déjà installée (ouverte en plein écran) ?
+  var estInstallee = window.matchMedia('(display-mode: standalone)').matches ||
+                     window.navigator.standalone === true;
+
+  var estIOS = /iphone|ipad|ipod/i.test(window.navigator.userAgent) && !window.MSStream;
+
+  // Android / Chrome / Edge : installation automatique
   var promptInstall = null;
   window.addEventListener('beforeinstallprompt', function (e) {
     e.preventDefault();
     promptInstall = e;
-    var btn = document.getElementById('installApp');
-    if (btn) {
-      btn.hidden = false;
-      btn.addEventListener('click', function () {
-        btn.hidden = true;
+    if (btnInstall) {
+      btnInstall.hidden = false;
+      btnInstall.onclick = function () {
+        btnInstall.hidden = true;
         promptInstall.prompt();
         promptInstall = null;
-      });
+      };
     }
   });
-  // une fois installée, on cache le bouton
   window.addEventListener('appinstalled', function () {
-    var btn = document.getElementById('installApp');
-    if (btn) btn.hidden = true;
+    if (btnInstall) btnInstall.hidden = true;
   });
+
+  // iPhone / iPad : pas d'installation auto -> on affiche un guide
+  if (btnInstall && estIOS && !estInstallee) {
+    btnInstall.hidden = false;
+    btnInstall.onclick = function () {
+      var g = document.getElementById('guideIOS');
+      if (g) { g.hidden = false; document.body.style.overflow = 'hidden'; }
+    };
+  }
+
+  var guideIOS = document.getElementById('guideIOS');
+  if (guideIOS) {
+    var fermerGuide = function () { guideIOS.hidden = true; document.body.style.overflow = ''; };
+    guideIOS.addEventListener('click', function (e) {
+      if (e.target === guideIOS || e.target.classList.contains('guide__close')) fermerGuide();
+    });
+  }
 
   /* ---- Année dans le footer ---- */
   var year = document.getElementById('year');
