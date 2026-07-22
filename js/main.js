@@ -299,19 +299,22 @@
         '<button class="choix__close" aria-label="Fermer">✕</button>' +
         '<p class="choix__label">Votre commande</p>' +
         '<h3 class="choix__nom"></h3>' +
-        '<p class="choix__q">Comment souhaitez-vous le prendre&nbsp;?</p>' +
+        '<p class="choix__q">Quelle formule souhaitez-vous&nbsp;?</p>' +
         '<div class="choix__btns">' +
-          '<button class="choix__opt" data-type="solo"><span>Solo</span><strong class="choix__px-solo"></strong></button>' +
-          '<button class="choix__opt choix__opt--menu" data-type="menu"><span>Menu</span><strong class="choix__px-menu"></strong><em>+ frites &amp; boisson</em></button>' +
+          '<button class="choix__opt" data-type="1"><span class="choix__lbl1"></span><strong class="choix__px1"></strong></button>' +
+          '<button class="choix__opt choix__opt--menu" data-type="2"><span class="choix__lbl2"></span><strong class="choix__px2"></strong><em class="choix__note"></em></button>' +
         '</div>' +
       '</div>';
     document.body.appendChild(modal);
 
     var elNom = modal.querySelector('.choix__nom');
-    var elSolo = modal.querySelector('.choix__px-solo');
-    var elMenu = modal.querySelector('.choix__px-menu');
-    var btnSolo = modal.querySelector('[data-type="solo"]');
-    var btnMenu = modal.querySelector('[data-type="menu"]');
+    var elLbl1 = modal.querySelector('.choix__lbl1');
+    var elLbl2 = modal.querySelector('.choix__lbl2');
+    var elPx1 = modal.querySelector('.choix__px1');
+    var elPx2 = modal.querySelector('.choix__px2');
+    var elNote = modal.querySelector('.choix__note');
+    var btn1 = modal.querySelector('[data-type="1"]');
+    var btn2 = modal.querySelector('[data-type="2"]');
     var courant = {};
 
     var fermer = function () {
@@ -324,22 +327,27 @@
       if (e.key === 'Escape' && !modal.hidden) fermer();
     });
 
-    btnSolo.addEventListener('click', function () {
+    btn1.addEventListener('click', function () {
       envoyerWA('Bonjour Melyza Tacos, je voudrais commander : ' + courant.nom +
-                ' — Solo (' + courant.solo + ')');
+                ' — ' + courant.lbl1 + ' (' + courant.px1 + ')');
       fermer();
     });
-    btnMenu.addEventListener('click', function () {
+    btn2.addEventListener('click', function () {
       envoyerWA('Bonjour Melyza Tacos, je voudrais commander : ' + courant.nom +
-                ' — Menu (' + courant.menu + ')');
+                ' — ' + courant.lbl2 + ' (' + courant.px2 + ')');
       fermer();
     });
 
-    var ouvrirChoix = function (nom, solo, menu) {
-      courant = { nom: nom, solo: solo, menu: menu };
+    // ouvre la fenêtre : deux formules avec leur libellé (Solo/Menu, Small/Méga...)
+    var ouvrirChoix = function (nom, lbl1, px1, lbl2, px2, note) {
+      courant = { nom: nom, lbl1: lbl1, px1: px1, lbl2: lbl2, px2: px2 };
       elNom.textContent = nom;
-      elSolo.textContent = solo;
-      elMenu.textContent = menu;
+      elLbl1.textContent = lbl1;
+      elPx1.textContent = px1;
+      elLbl2.textContent = lbl2;
+      elPx2.textContent = px2;
+      elNote.textContent = note || '';
+      elNote.style.display = note ? '' : 'none';
       modal.hidden = false;
       document.body.style.overflow = 'hidden';
     };
@@ -354,9 +362,15 @@
 
       var nom = texteDirect(h3) || h3.textContent.trim();
       var prixEl = item.querySelector('.menu-item__price');
-      var solo = texteDirect(prixEl);
+      var px1 = texteDirect(prixEl);
       var small = prixEl ? prixEl.querySelector('small') : null;
-      var menu = small ? small.textContent.replace(/menu\s*:\s*/i, '').trim() : '';
+      // le 2e prix suit un préfixe "Menu :" ou "Méga :" -> on ne garde que le montant
+      var px2 = small ? small.textContent.replace(/^[^:]*:\s*/, '').trim() : '';
+
+      // libellés des deux formules (Solo/Menu par défaut, Small/Méga pour les pizzas)
+      var lbl1 = prixEl && prixEl.dataset.opt1 ? prixEl.dataset.opt1 : 'Solo';
+      var lbl2 = prixEl && prixEl.dataset.opt2 ? prixEl.dataset.opt2 : 'Menu';
+      var note = (lbl2 === 'Menu') ? '+ frites & boisson' : '';
 
       item.classList.add('menu-item--commandable');
       item.setAttribute('role', 'button');
@@ -369,11 +383,11 @@
       item.appendChild(ic);
 
       var commander = function () {
-        if (menu) {
-          ouvrirChoix(nom, solo, menu);          // deux prix -> on demande Solo ou Menu
+        if (px2) {
+          ouvrirChoix(nom, lbl1, px1, lbl2, px2, note);   // deux formules -> on demande
         } else {
           envoyerWA('Bonjour Melyza Tacos, je voudrais commander : ' + nom +
-                    (solo ? ' (' + solo + ')' : ''));
+                    (px1 ? ' (' + px1 + ')' : ''));
         }
       };
       item.addEventListener('click', commander);
