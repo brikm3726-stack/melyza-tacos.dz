@@ -972,6 +972,16 @@ h3 { font-size: 1.2rem; }
   color: #fff;
   transform: translateX(-3px);
 }
+/* Sur téléphone : le bouton passe au-dessus du titre (plus de chevauchement) */
+@media (max-width: 640px) {
+  .menu-hero { padding-top: 22px; }
+  .menu-hero__back {
+    position: static;
+    top: auto;
+    left: auto;
+    margin: 0 0 18px;
+  }
+}
 .menu-hero h1 { font-size: clamp(2.4rem, 7vw, 4rem); margin-bottom: 10px; }
 .menu-hero h1 span {
   background: linear-gradient(135deg, var(--orange), var(--or));
