@@ -3,7 +3,7 @@
    Rend l'application rapide et disponible hors connexion.
    ========================================================= */
 
-const CACHE = 'melyza-tacos-v2';
+const CACHE = 'melyza-tacos-v3';
 
 // Fichiers mis en cache dès l'installation (le "cœur" de l'app)
 const A_METTRE_EN_CACHE = [
