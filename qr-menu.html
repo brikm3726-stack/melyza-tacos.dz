@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QR Code Menu — Melyza Tacos (à imprimer)</title>
+  <link rel="apple-touch-icon" href="images/icons/apple-touch-icon.png" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: "Poppins", "Segoe UI", Arial, sans-serif;
+      background: #2b3036;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px 16px;
+      gap: 24px;
+    }
+
+    /* ----- La carte à imprimer ----- */
+    .carte {
+      width: 100%;
+      max-width: 420px;
+      background: linear-gradient(170deg, #241a15 0%, #17130f 60%, #12100e 100%);
+      border-radius: 28px;
+      padding: 38px 32px 30px;
+      text-align: center;
+      color: #f7f1e8;
+      box-shadow: 0 30px 70px rgba(0, 0, 0, .5);
+      border: 2px solid #f5a623;
+      position: relative;
+      overflow: hidden;
+    }
+    .carte::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 40% at 50% 0%, rgba(245, 166, 35, .22), transparent 65%);
+      pointer-events: none;
+    }
+
+    .logo { width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 18px; display: block; }
+
+    .titre {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: .04em;
+      margin-bottom: 6px;
+    }
+    .titre span { color: #f5a623; }
+
+    .sous-titre {
+      font-size: .82rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: #a29d97;
+      margin-bottom: 24px;
+    }
+
+    /* ----- Le QR ----- */
+    .qr-boite {
+      background: #fff;
+      border-radius: 20px;
+      padding: 16px;
+      display: inline-block;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, .35);
+    }
+    .qr-boite img { width: 240px; height: 240px; display: block; }
+
+    .instruction {
+      margin-top: 22px;
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+    .instruction small {
+      display: block;
+      margin-top: 6px;
+      font-size: .8rem;
+      font-weight: 400;
+      color: #a29d97;
+    }
+
+    .infos {
+      margin-top: 22px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255, 255, 255, .12);
+      font-size: .85rem;
+      line-height: 1.7;
+      color: #cfc9c2;
+    }
+    .infos strong { color: #f5a623; }
+    .site { font-weight: 700; letter-spacing: .02em; }
+
+    /* ----- Boutons (écran uniquement) ----- */
+    .actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+    .btn {
+      padding: 13px 26px;
+      border-radius: 999px;
+      border: 0;
+      font: inherit;
+      font-weight: 700;
+      font-size: .9rem;
+      cursor: pointer;
+      background: linear-gradient(135deg, #ff6b1a, #d92626);
+      color: #fff;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn--ghost { background: transparent; border: 2px solid rgba(255,255,255,.3); color: #fff; }
+    .aide {
+      max-width: 420px;
+      color: #cfc9c2;
+      font-size: .85rem;
+      line-height: 1.7;
+      text-align: center;
+    }
+
+    /* ----- Impression ----- */
+    @media print {
+      body { background: #fff; padding: 0; display: block; }
+      .actions, .aide { display: none !important; }
+      .carte {
+        max-width: 100%;
+        box-shadow: none;
+        border-radius: 0;
+        page-break-inside: avoid;
+        margin: 0 auto;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="carte">
+    <img src="images/logo.png" alt="Melyza Tacos" class="logo" />
+
+    <p class="titre">Notre <span>Menu</span></p>
+    <p class="sous-titre">the best corner</p>
+
+    <div class="qr-boite">
+      <img src="images/qr-menu.png" alt="QR code du menu Melyza Tacos" />
+    </div>
+
+    <p class="instruction">
+      📷 Scannez avec votre téléphone
+      <small>Ouvrez l'appareil photo et visez le code</small>
+    </p>
+
+    <div class="infos">
+      <span class="site">melyzatacos.online</span><br />
+      📞 <strong>05 60 56 61 17</strong><br />
+      20, Rue Boudelal Arezki — Tizi Ouzou<br />
+      Tous les jours · 11h – 23h
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btn" onclick="window.print()">🖨️ Imprimer cette carte</button>
+    <a class="btn btn--ghost" href="images/qr-menu.png" download>⬇ Télécharger le QR (PNG)</a>
+    <a class="btn btn--ghost" href="images/qr-menu.svg" download>⬇ QR vectoriel (SVG)</a>
+  </div>
+
+  <p class="aide">
+    Le QR code ouvre directement le menu : <strong>melyzatacos.online/menu.html</strong>.<br />
+    Imprimez cette carte et posez-la sur les tables, la vitrine ou le comptoir.<br />
+    Le fichier <strong>SVG</strong> est idéal pour l'imprimeur (agrandissable sans perte de qualité).
+  </p>
+
+</body>
+</html>
